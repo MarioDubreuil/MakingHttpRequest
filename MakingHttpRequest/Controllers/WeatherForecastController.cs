@@ -7,23 +7,20 @@ namespace MakingHttpRequest.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
-        private static HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        static WeatherForecastController()
-        {
-            _httpClient = new HttpClient();
-        }
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         [HttpGet]
         public async Task<string> Get(string zipCode)
         {
+            var httpClient = _httpClientFactory.CreateClient();
             var url = $"https://api.zippopotam.us/us/{zipCode}";
-            var response = await _httpClient.GetAsync(url);
+            var response = await httpClient.GetAsync(url);
             return await response.Content.ReadAsStringAsync();
         }
     }
