@@ -9,7 +9,10 @@ namespace MakingHttpRequest
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient("zippopotam", c =>
+            {
+                c.BaseAddress = new Uri("https://api.zippopotam.us/us/");
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -18,8 +18,8 @@ namespace MakingHttpRequest.Controllers
         [HttpGet]
         public async Task<string> Get(string zipCode)
         {
-            var httpClient = _httpClientFactory.CreateClient();
-            var url = $"https://api.zippopotam.us/us/{zipCode}";
+            var httpClient = _httpClientFactory.CreateClient("zippopotam");
+            var url = $"{zipCode}";
             var response = await httpClient.GetAsync(url);
             return await response.Content.ReadAsStringAsync();
         }
