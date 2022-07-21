@@ -7,6 +7,12 @@ namespace MakingHttpRequest.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly ILogger<WeatherForecastController> _logger;
+        private static HttpClient _httpClient;
+
+        static WeatherForecastController()
+        {
+            _httpClient = new HttpClient();
+        }
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
@@ -17,11 +23,8 @@ namespace MakingHttpRequest.Controllers
         public async Task<string> Get(string zipCode)
         {
             var url = $"https://api.zippopotam.us/us/{zipCode}";
-            using (var httpClient = new HttpClient())
-            {
-                var response = await httpClient.GetAsync(url);
-                return await response.Content.ReadAsStringAsync();
-            }
+            var response = await _httpClient.GetAsync(url);
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }
